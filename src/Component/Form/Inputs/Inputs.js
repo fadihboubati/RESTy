@@ -20,6 +20,18 @@ export function Inputs(props) {
 
     const sendData = async (evt) => {
         evt.preventDefault();
+        if(url == null || method == null) {
+            alert("Please Fill all the required inputs");
+            return;
+        }
+
+        if(method === "PUT" || method === "POST") {
+            if (text == null) {
+                alert("Please Fill all the required inputs");
+                return;
+            }
+        }
+
         setIsLoading(true);
         const res = await fetchData(url, method, text);
         setTimeout(() => {
@@ -33,7 +45,7 @@ export function Inputs(props) {
             
             <div className="Inputs-input">
                 <span>URL: </span>
-                <input value={props.dataRender? props.dataRender.url + '/' : null} onChange={evt => setUrl(evt.target.value)} type="url"></input>{" "}
+                <input required value={props.dataRender? props.dataRender.url + '/' : null} onChange={evt => setUrl(evt.target.value)} type="url"></input>{" "}
                 <button type="submit" onClick={sendData}>Go</button>{" "}
                 {isLoading &&
                     <div className="spinner-grow spinner-grow-sm" role="status">
