@@ -9,6 +9,14 @@ export function Inputs(props) {
     const [isLoading, setIsLoading] = React.useState(false);
     const [text, setText] = React.useState(null);
 
+    React.useEffect(() => {
+        let selectedRadioBtn = document.getElementById("thisOne")
+        if (selectedRadioBtn != null) {
+            selectedRadioBtn.checked = true;
+        };
+        
+    });
+
 
     const sendData = async (evt) => {
         evt.preventDefault();
@@ -22,9 +30,10 @@ export function Inputs(props) {
 
     return (
         <div id="Inputs-div">
+            
             <div className="Inputs-input">
                 <span>URL: </span>
-                <input onChange={evt => setUrl(evt.target.value)} type="url"></input>{" "}
+                <input value={props.dataRender? props.dataRender.url + '/' : null} onChange={evt => setUrl(evt.target.value)} type="url"></input>{" "}
                 <button type="submit" onClick={sendData}>Go</button>{" "}
                 {isLoading &&
                     <div className="spinner-grow spinner-grow-sm" role="status">
@@ -32,25 +41,25 @@ export function Inputs(props) {
                     </div>
                 }
 
-                <div onChange={evt => setMethod(evt.target.value)}>
+                <div id="radInputs" onChange={evt => setMethod(evt.target.value)}>
                     <label>
                         GET{" "}
-                        <input name='method' value='GET' type='radio' />
+                        <input id={props.dataRender? props.dataRender.method === "GET" ? "thisOne": null : null} name='method' value='GET' type='radio' />
                     </label>
                     <label>
                         PUT{" "}
-                        <input name='method' value='PUT' type='radio' />
+                        <input id={props.dataRender? props.dataRender.method === "PUT" ? "thisOne": null : null} name='method' value='PUT' type='radio' />
                     </label>
                     <label>
                         POST{" "}
-                        <input name='method' value='POST' type='radio' />
+                        <input id={props.dataRender? props.dataRender.method === "POST" ? "thisOne": null : null} name='method' value='POST' type='radio' />
                     </label>
                     <label>
                         DELETE{" "}
-                        <input name='method' value='DELETE' type='radio' />
+                        <input id={props.dataRender? props.dataRender.method === "DELETE" ? "thisOne": null : null} name='method' value='DELETE' type='radio' />
                     </label><br />
                 </div>
-                <textarea onChange={evt => setText(evt.target.value)}></textarea>
+                <textarea value={props.dataRender? props.dataRender.body : null} onChange={evt => setText(evt.target.value)}></textarea>
             </div>
         </div>
     );

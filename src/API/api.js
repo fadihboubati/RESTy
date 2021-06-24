@@ -1,23 +1,21 @@
-// const getLastItem = url => url.substring(url.lastIndexOf('/') + 1);
-
-export const fetchData = async (myUrl, method, text) => {
+export const fetchData = async (myUrl, Mymethod, text) => {
     let setting = {};
-
     let res;
     let url = myUrl;
+    let method = Mymethod;
     console.log("method: ", method);
     if (method === "POST" || method === 'PUT') {
         setting.method = method;
         setting.body = text; // body data type must match "Content-Type" header
-        setting.headers = {'Content-Type': 'application/json'};
-        // setting.mode = "no-cors";
+        setting.headers = { 'Content-Type': 'application/json' };
         await fetch(url, setting);
+        console.log(url);
         let lastParamIndx = url.lastIndexOf('/') + 1;
         let urlWithoutParam = url.slice(0, lastParamIndx);
-        url = urlWithoutParam;
+        url = urlWithoutParam + '/';
         setting = {};
-        console.log("url", url);
         setting.method = "GET";
+        console.log(url);
         res = await fetch(url, setting);
 
     } else if (method === "DELETE") {
@@ -27,7 +25,6 @@ export const fetchData = async (myUrl, method, text) => {
         let urlWithoutParam = url.slice(0, lastParamIndx);
         url = urlWithoutParam;
         setting = {};
-        console.log("url", url);
         setting.method = "GET";
         res = await fetch(url, setting);
 
@@ -35,12 +32,21 @@ export const fetchData = async (myUrl, method, text) => {
     else {
         setting.method = method;
         res = await fetch(url, setting); // method === "GET"
-    }
-    console.log("setting: ",setting);
-    console.log("API - res", res);
-    
+    };
+
     const body = await res.json();
-    console.log("API - body", body);
-    
+
+
+    // save into Local Storage
+    if (!localStorage.getItem("data")) {
+        let data = [];
+        data.push({ "method": method, "url": myUrl, "body": text });
+        localStorage.setItem("data", JSON.stringify(data));
+    } else {
+        let data = JSON.parse(localStorage.getItem("data"));
+        data.push({ "method": method, "url": myUrl, "body": text })
+        localStorage.setItem("data", JSON.stringify(data));
+    };
+
     return { "body": body, "headers": res.headers };
 };

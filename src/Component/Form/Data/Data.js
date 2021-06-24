@@ -1,7 +1,7 @@
-import React from 'react'
+import React from 'react';
 
 export default function Data(props) {
-    const {state} = props
+    const {state} = props;
     return (
         <div >
         {
