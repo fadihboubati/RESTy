@@ -1,21 +1,19 @@
 export const fetchData = async (myUrl, Mymethod, text) => {
     let setting = {};
     let res;
-    let url = myUrl;
+    let url = myUrl + "/";
+
     let method = Mymethod;
-    console.log("method: ", method);
     if (method === "POST" || method === 'PUT') {
         setting.method = method;
         setting.body = text; // body data type must match "Content-Type" header
         setting.headers = { 'Content-Type': 'application/json' };
         await fetch(url, setting);
-        console.log(url);
         let lastParamIndx = url.lastIndexOf('/') + 1;
         let urlWithoutParam = url.slice(0, lastParamIndx);
-        url = urlWithoutParam + '/';
+        url = urlWithoutParam;
         setting = {};
         setting.method = "GET";
-        console.log(url);
         res = await fetch(url, setting);
 
     } else if (method === "DELETE") {
