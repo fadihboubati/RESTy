@@ -45,6 +45,10 @@ export function Inputs(props) {
         const res = await fetchData(url, method, text);
         setTimeout(() => {
             props.handerData(url, method, res);
+            if(method === "DELETE") {
+                alert("Deleted Successfully");
+            }
+
             setIsLoading(false);
         }, 1000);
     };

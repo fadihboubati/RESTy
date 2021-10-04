@@ -22,21 +22,26 @@ export const fetchData = async (myUrl, Mymethod, text) => {
 
     } else if (method === "DELETE") {
         setting.method = method
-        await fetch(url, setting); // delete
-        let lastParamIndx = url.lastIndexOf('/') + 1;
-        let urlWithoutParam = url.slice(0, lastParamIndx);
-        url = urlWithoutParam;
-        setting = {};
-        setting.method = "GET";
-        res = await fetch(url, setting);
+        res = await fetch(url, setting); // delete
+        // let lastParamIndx = url.lastIndexOf('/') + 1;
+        // let urlWithoutParam = url.slice(0, lastParamIndx);
+        // url = urlWithoutParam;
+        // setting = {};
+        // setting.method = "GET";
+        // res = await fetch(url, setting);
 
     }
     else {
         setting.method = method;
         res = await fetch(url, setting); // method === "GET"
     };
-
-    let body = await res.json();
+    console.log("res . . . . . ", res)
+    let body;
+    if (method !== "DELETE") {
+        body = await res.json();
+    } else {
+        body = [{}]
+    }
     console.log("body . . . . . ", body)
 
 

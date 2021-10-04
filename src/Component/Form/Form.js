@@ -15,7 +15,7 @@ export class Form extends Component {
         this.setState({
             url: url,
             method: method,
-            results: res.body.results || res.body,
+            results: res.body.results || res.body || "Deleted Successfully",
             count: res.body.count || res.body.length,
             headers: res.headers.get("Content-Type")
         });
